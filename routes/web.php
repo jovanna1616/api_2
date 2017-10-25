@@ -1,5 +1,5 @@
 <?php
-
+use App\Movie;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,5 +12,6 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	$movies = Movie::all()->paginator($skip, $take)->get();
+    return view('welcome', compact('movies'));
 });
