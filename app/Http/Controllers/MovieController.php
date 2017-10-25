@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Movie;
 use Carbon\Carbon;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -11,7 +13,9 @@ class MovieController extends Controller
 {
 	public function index()
     {
-        $movies = Movie::getMovies();
+        // $movies = Movie::getMovies();
+        $movies = DB::table('movies')->paginate(10);
+
         // return view('movies.index', compact('movies'));
     }
 
