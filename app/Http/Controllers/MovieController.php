@@ -13,8 +13,8 @@ class MovieController extends Controller
 {
 	public function index()
     {
-        // $movies = Movie::getMovies();
-        $movies = DB::table('movies')->paginate(10);
+        $movies = Movie::getMovies();
+        // $movies = DB::table('movies')->paginate(10);
 
         // return view('movies.index', compact('movies'));
     }
@@ -37,11 +37,14 @@ class MovieController extends Controller
 
 
     	$rules = Movie::STORE_RULES;
-                
         // 1. izvrsi validaciju unetih podataka kroz formu
+                // dd($request->all());
+
         $request->validate($rules);
         // 2. salji i sacuvaj u bazi
         $movie = Movie::create($request->all());
+
+
 
         // // 3. redirektuj na stranicu sa svim filovima
         // return redirect()->route('all-movies');

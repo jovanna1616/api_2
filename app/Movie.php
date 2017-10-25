@@ -12,16 +12,17 @@ class Movie extends Model
     protected $casts = ['genres' => 'array'];
 
     const STORE_RULES = [
-            'name' => 'required | unique',
+            'name' => 'required',
             'director' => 'required',
             'image_url' => 'required | url',
             'duration' => 'required | between: 1,500',
-            'release_date' => 'required | unique',
+            'release_date' => 'required',
         ];
 
 
     static function getMovies() {
-        return self::all()->paginator($skip, $take);
+        return self::all();
+        return self::all()->paginate(10);
     }
 
     // mutator - niz u string kad bude stizao u bazu
@@ -33,25 +34,27 @@ class Movie extends Model
     static function search($term)
     {
         $movies = self::latest()->get();
+        
         // $url = $request->path();
         $url = $request->fullUrl();
         foreach ($movies as $movie) {
-            return self::where($movie.name === $url)->paginator($skip,$take);
+            return self::where($movie.name === $url)->get();
+            // return self::where($movie.name === $url)->paginator($skip,$take)->get();
         }
     }
 
-// da li posle all ako ima limit ide get
-    static function paginator($skip, $take) {
-        $skip = request($_GET['skip']);
-        $take = request($_GET['take']);
-        $movies =  self::all();
-        $movies = array_slice($movies, $skip);
-        for($i=0; $i<$take; $i++) {
-            $movies[] = $movie;
-        }
-        return $movies;
-        // dd($movies);   
-    }
+
+    // static function paginator($skip, $take) {
+
+    //     $skip = request($_GET['skip']);
+    //     $take = request($_GET['take']);
+    //     $movies =  self::all();
+    //     $movies = array_slice($movies, $skip);
+    //     for($i=0; $i<$take; $i++) {
+    //         $movies[] = $movie;
+    //     }
+    //     return $movies;
+    // }
 
 
 }

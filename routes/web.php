@@ -12,6 +12,6 @@ use App\Movie;
 */
 
 Route::get('/', function () {
-	$movies = Movie::all()->paginator($skip, $take)->get();
-    return view('welcome', compact('movies'));
+	
+    return view('welcome');
 });
